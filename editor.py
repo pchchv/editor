@@ -84,92 +84,102 @@ class TextEditor:
         # Calling shortcuts funtion
         self.shortcuts()
 
-        # Defining New file Function
-        def newfile(self,*args):
-            # Clearing the Text Area
-            self.txtarea.delete("1.0",END)
-            # Updating filename as None
-            self.filename = None
-            # Calling settitle funtion
-            self.settitle()
-            # updating status
-            self.status.set("New File Created")
-        
-        # Defining Open File Funtion
-        def openfile(self,*args):
-            # Exception handling\
-            try:
-                # Asking for file to open
-                self.filename = filedialog.askopenfilename(title = "Select file",filetypes = (("All Files","*.*"),("Text Files","*.txt"),("Python Files","*.py")))
-                # checking if filename not none
-                if self.filename:
-                    # opening file in readmode
-                    infile = open(self.filename,"r")
-                    # Clearing text area
-                    self.txtarea.delete("1.0",END)
-                    # Inserting data Line by line into text area
-                    for line in infile:
-                        self.txtarea.insert(END,line)
-                        # Closing the file
-                        infile.close()
-                        # Calling Set title
-                        self.settitle()
-                        # Updating Status
-                        self.status.set("Opened Successfully")
-            except Exception as e:
-                messagebox.showerror("Exception",e)
-            
-        # Defining Save File Funtion
-        def savefile(self,*args):
-            # Exception handling
-            try:
-                # checking if filename not none
-                if self.filename:
-                    # Reading the data from text area
-                    data = self.txtarea.get("1.0",END)
-                    # opening File in write mode
-                    outfile = open(self.filename,"w")
-                    # Writing Data into file
-                    outfile.write(data)
-                    # Closing File
-                    outfile.close()
+    # Defining settitle function
+    def settitle(self):
+        # Checking if Filename is not None
+        if self.filename:
+            # Updating Title as filename
+            self.title.set(self.filename)
+        else:
+            # Updating Title as Untitled
+            self.title.set("Untitled")
+
+    # Defining New file Function
+    def newfile(self,*args):
+        # Clearing the Text Area
+        self.txtarea.delete("1.0",END)
+        # Updating filename as None
+        self.filename = None
+        # Calling settitle funtion
+        self.settitle()
+        # updating status
+        self.status.set("New File Created")
+    
+    # Defining Open File Funtion
+    def openfile(self,*args):
+        # Exception handling\
+        try:
+            # Asking for file to open
+            self.filename = filedialog.askopenfilename(title = "Select file",filetypes = (("All Files","*.*"),("Text Files","*.txt"),("Python Files","*.py")))
+            # checking if filename not none
+            if self.filename:
+                # opening file in readmode
+                infile = open(self.filename,"r")
+                # Clearing text area
+                self.txtarea.delete("1.0",END)
+                # Inserting data Line by line into text area
+                for line in infile:
+                    self.txtarea.insert(END,line)
+                    # Closing the file
+                    infile.close()
                     # Calling Set title
                     self.settitle()
                     # Updating Status
-                    self.status.set("Saved Successfully")
-                else:
-                    self.saveasfile()
-            except Exception as e:
-                messagebox.showerror("Exception",e)
-        
-        # Defining Save As File Funtion
-        def saveasfile(self,*args):
-            # Exception handling
-            try:
-                # Asking for file name and type to save
-                untitledfile = filedialog.asksaveasfilename(title = "Save file As",
-                defaultextension=".txt",
-                initialfile = "Untitled.txt",
-                filetypes = (("All Files","*.*"),
-                ("Text Files","*.txt"),
-                ("Python Files","*.py")
-                ))
+                    self.status.set("Opened Successfully")
+        except Exception as e:
+            messagebox.showerror("Exception",e)
+            
+    # Defining Save File Funtion
+    def savefile(self,*args):
+        # Exception handling
+        try:
+            # checking if filename not none
+            if self.filename:
                 # Reading the data from text area
                 data = self.txtarea.get("1.0",END)
                 # opening File in write mode
-                outfile = open(untitledfile,"w")
+                outfile = open(self.filename,"w")
                 # Writing Data into file
                 outfile.write(data)
                 # Closing File
                 outfile.close()
-                # Updating filename as Untitled
-                self.filename = untitledfile
                 # Calling Set title
                 self.settitle()
                 # Updating Status
                 self.status.set("Saved Successfully")
-            except Exception as e:
-                messagebox.showerror("Exception",e)       
+            else:
+                self.saveasfile()
+        except Exception as e:
+            messagebox.showerror("Exception",e)
+    
+    # Defining Save As File Funtion
+    def saveasfile(self,*args):
+        # Exception handling
+        try:
+            # Asking for file name and type to save
+            untitledfile = filedialog.asksaveasfilename(title = "Save file As",
+            defaultextension=".txt",
+            initialfile = "Untitled.txt",
+            filetypes = (("All Files","*.*"),
+            ("Text Files","*.txt"),
+            ("Python Files","*.py")
+            ))
+            # Reading the data from text area
+            data = self.txtarea.get("1.0",END)
+            # opening File in write mode
+            outfile = open(untitledfile,"w")
+            # Writing Data into file
+            outfile.write(data)
+            # Closing File
+            outfile.close()
+            # Updating filename as Untitled
+            self.filename = untitledfile
+            # Calling Set title
+            self.settitle()
+            # Updating Status
+            self.status.set("Saved Successfully")
+        except Exception as e:
+            messagebox.showerror("Exception",e)
 
 
 # Creating TK Container
