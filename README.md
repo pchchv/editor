@@ -1,2 +1,4 @@
-# editor
-Text editor implemented in Python
+<div align="center">
+
+# **Text editor implemented in Python**
+</div>
