@@ -32,45 +32,45 @@ class TextEditor:
         # Initializing Status
         self.status.set("Welcome To Text Editor")
         # Creating Menubar
-        self.menubar = Menu(self.root,font=("times new roman",15,"bold"),activebackground="skyblue")
+        self.menubar = Menu(self.root,font=("times new roman",15,"bold"),activebackground="sky-blue")
         # Configuring menubar on root window
         self.root.config(menu=self.menubar)
         # Creating File Menu
-        self.filemenu = Menu(self.menubar,font=("times new roman",12,"bold"),activebackground="skyblue",tearoff=0)
+        self.file_menu = Menu(self.menubar, font=("times new roman", 12, "bold"), activebackground="sky-blue", tearoff=0)
         # Adding New file Command
-        self.filemenu.add_command(label="New",accelerator="Ctrl+N",command=self.newfile)
+        self.file_menu.add_command(label="New", accelerator="Ctrl+N", command=self.newfile)
         # Adding Open file Command
-        self.filemenu.add_command(label="Open",accelerator="Ctrl+O",command=self.openfile)
+        self.file_menu.add_command(label="Open", accelerator="Ctrl+O", command=self.openfile)
         # Adding Save File Command
-        self.filemenu.add_command(label="Save",accelerator="Ctrl+S",command=self.savefile)
+        self.file_menu.add_command(label="Save", accelerator="Ctrl+S", command=self.savefile)
         # Adding Save As file Command
-        self.filemenu.add_command(label="Save As",accelerator="Ctrl+A",command=self.saveasfile)
-        # Adding Seprator
-        self.filemenu.add_separator()
+        self.file_menu.add_command(label="Save As", accelerator="Ctrl+A", command=self.save_as_file)
+        # Adding Separator
+        self.file_menu.add_separator()
         # Adding Exit window Command
-        self.filemenu.add_command(label="Exit",accelerator="Ctrl+E",command=self.exit)
-        # Cascading filemenu to menubar
-        self.menubar.add_cascade(label="File", menu=self.filemenu)
+        self.file_menu.add_command(label="Exit", accelerator="Ctrl+E", command=self.exit)
+        # Cascading file menu to menubar
+        self.menubar.add_cascade(label="File", menu=self.file_menu)
         # Creating Edit Menu
-        self.editmenu = Menu(self.menubar,font=("times new roman",12,"bold"),activebackground="skyblue",tearoff=0)
+        self.editmenu = Menu(self.menubar,font=("times new roman",12,"bold"),activebackground="sky-blue",tearoff=0)
         # Adding Cut text Command
         self.editmenu.add_command(label="Cut",accelerator="Ctrl+X",command=self.cut)
         # Adding Copy text Command
         self.editmenu.add_command(label="Copy",accelerator="Ctrl+C",command=self.copy)
         # Adding Paste text command
         self.editmenu.add_command(label="Paste",accelerator="Ctrl+V",command=self.paste)
-        # Adding Seprator
+        # Adding Separator
         self.editmenu.add_separator()
         # Adding Undo text Command
         self.editmenu.add_command(label="Undo",accelerator="Ctrl+U",command=self.undo)
         # Cascading editmenu to menubar
         self.menubar.add_cascade(label="Edit", menu=self.editmenu)
         # Creating Help Menu
-        self.helpmenu = Menu(self.menubar,font=("times new roman",12,"bold"),activebackground="skyblue",tearoff=0)
+        self.help_menu = Menu(self.menubar, font=("times new roman", 12, "bold"), activebackground="sky-blue", tearoff=0)
         # Adding About Command
-        self.helpmenu.add_command(label="About",command=self.infoabout)
-        # Cascading helpmenu to menubar
-        self.menubar.add_cascade(label="Help", menu=self.helpmenu)
+        self.help_menu.add_command(label="About", command=self.info_about)
+        # Cascading help menu to menubar
+        self.menubar.add_cascade(label="Help", menu=self.help_menu)
         # Creating Scrollbar
         scrol_y = Scrollbar(self.root,orient=VERTICAL)
         # Creating Text Area
@@ -81,7 +81,7 @@ class TextEditor:
         scrol_y.config(command=self.txtarea.yview)
         # Packing Text Area to root window
         self.txtarea.pack(fill=BOTH,expand=1)
-        # Calling shortcuts funtion
+        # Calling shortcuts function
         self.shortcuts()
 
     # Defining settitle function
@@ -100,20 +100,20 @@ class TextEditor:
         self.txtarea.delete("1.0",END)
         # Updating filename as None
         self.filename = None
-        # Calling settitle funtion
+        # Calling settitle function
         self.settitle()
         # updating status
         self.status.set("New File Created")
     
-    # Defining Open File Funtion
+    # Defining Open File Function
     def openfile(self,*args):
-        # Exception handling\
+        # Exception handling
         try:
             # Asking for file to open
             self.filename = filedialog.askopenfilename(title = "Select file",filetypes = (("All Files","*.*"),("Text Files","*.txt"),("Python Files","*.py")))
             # checking if filename not none
             if self.filename:
-                # opening file in readmode
+                # opening file in read mode
                 infile = open(self.filename,"r")
                 # Clearing text area
                 self.txtarea.delete("1.0",END)
@@ -129,7 +129,7 @@ class TextEditor:
         except Exception as e:
             messagebox.showerror("Exception",e)
             
-    # Defining Save File Funtion
+    # Defining Save File Function
     def savefile(self,*args):
         # Exception handling
         try:
@@ -148,16 +148,16 @@ class TextEditor:
                 # Updating Status
                 self.status.set("Saved Successfully")
             else:
-                self.saveasfile()
+                self.save_as_file()
         except Exception as e:
-            messagebox.showerror("Exception",e)
+            messagebox.showerror("Exception", e)
     
-    # Defining Save As File Funtion
-    def saveasfile(self,*args):
+    # Defining Save As File Function
+    def save_as_file(self, *args):
         # Exception handling
         try:
             # Asking for file name and type to save
-            untitledfile = filedialog.asksaveasfilename(title = "Save file As",
+            untitled_file = filedialog.asksaveasfilename(title = "Save file As",
             defaultextension=".txt",
             initialfile = "Untitled.txt",
             filetypes = (("All Files","*.*"),
@@ -167,19 +167,95 @@ class TextEditor:
             # Reading the data from text area
             data = self.txtarea.get("1.0",END)
             # opening File in write mode
-            outfile = open(untitledfile,"w")
+            outfile = open(untitled_file,"w")
             # Writing Data into file
             outfile.write(data)
             # Closing File
             outfile.close()
             # Updating filename as Untitled
-            self.filename = untitledfile
+            self.filename = untitled_file
             # Calling Set title
             self.settitle()
             # Updating Status
             self.status.set("Saved Successfully")
         except Exception as e:
             messagebox.showerror("Exception",e)
+    
+    # Defining Exit Function
+    def exit(self,*args):
+        op = messagebox.askyesno("WARNING","Your Unsaved Data May be Lost!!")
+        if op>0:
+            self.root.destroy()
+        else:
+            return
+    
+    # Defining Cut Function
+    def cut(self,*args):
+        self.txtarea.event_generate("<<Cut>>")
+    
+    # Defining Copy Function
+    def copy(self,*args):
+        self.txtarea.event_generate("<<Copy>>")
+    
+    # Defining Paste Function
+    def paste(self,*args):
+        self.txtarea.event_generate("<<Paste>>")
+        
+    # Defining Undo Function
+    def undo(self,*args):
+        # Exception handling
+        try:
+            # checking if filename not none
+            if self.filename:
+                # Clearing Text Area
+                self.txtarea.delete("1.0",END)
+                # opening File in read mode
+                infile = open(self.filename,"r")
+                # Inserting data Line by line into text area
+                for line in infile:
+                    self.txtarea.insert(END,line)
+                    # Closing File
+                    infile.close()
+                    # Calling Set title
+                    self.settitle()
+                    # Updating Status
+                    self.status.set("Undone Successfully")
+            else:
+                # Clearing Text Area
+                self.txtarea.delete("1.0",END)
+                # Updating filename as None
+                self.filename = None
+                # Calling Set title
+                self.settitle()
+                # Updating Status
+                self.status.set("Undone Successfully")
+        except Exception as e:
+            messagebox.showerror("Exception",e)
+
+    # Defining About Function
+    def info_about(self):
+        messagebox.showinfo("About Text Editor","A Simple Text Editor\nCreated using Python.")
+
+    # Defining shortcuts Function
+    def shortcuts(self):
+        # Binding Ctrl+n to newfile function
+        self.txtarea.bind("<Control-n>",self.newfile)
+        # Binding Ctrl+o to openfile function
+        self.txtarea.bind("<Control-o>",self.openfile)
+        # Binding Ctrl+s to savefile function
+        self.txtarea.bind("<Control-s>",self.savefile)
+        # Binding Ctrl+a to save as file function
+        self.txtarea.bind("<Control-a>", self.save_as_file)
+        # Binding Ctrl+e to exit function
+        self.txtarea.bind("<Control-e>",self.exit)
+        # Binding Ctrl+x to cut function
+        self.txtarea.bind("<Control-x>",self.cut)
+        # Binding Ctrl+c to copy function
+        self.txtarea.bind("<Control-c>",self.copy)
+        # Binding Ctrl+v to paste function
+        self.txtarea.bind("<Control-v>",self.paste)
+        # Binding Ctrl+u to undo function
+        self.txtarea.bind("<Control-u>",self.undo)
 
 
 # Creating TK Container
